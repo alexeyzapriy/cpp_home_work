@@ -50,5 +50,5 @@ Student(const Student& aStudent);
 
     void write(FILE* aFile);
 
-	bool read(FILE* aFile);
+	void read(FILE* aFile);
 };

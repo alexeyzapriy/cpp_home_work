@@ -12,7 +12,7 @@ public:
     void sort();
     void show();
 
-    void write(FILE* aFile);
+    void write();
 
-    bool read(FILE* aFile);
+   void read();
 };

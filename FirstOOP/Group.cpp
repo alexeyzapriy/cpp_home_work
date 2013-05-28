@@ -7,10 +7,15 @@ using std::endl;
 Group::Group()
 {
     mSize = 0;
+	mGroup = NULL;
 }
 
 Group::~Group()
 {
+	for(int i =0; i<mSize; i++)
+	{
+		delete mGroup[i];
+	}
     delete [] mGroup;
 }
 
@@ -37,7 +42,7 @@ void Group::sort()
         temp = mGroup[i]; // временное хранение
 
         // поиск места элемента в готовой последовательности 
-        for (j=i-1; j>=0 && mGroup[j] > temp; j--)
+        for (j=i-1; j>=0 && *mGroup[j] > *temp; j--)
             mGroup[j+1]=mGroup[j];  	// сдвигаем элемент вправо
         mGroup[j+1] = temp; // место найдено, вставить элемент
     }
@@ -48,18 +53,34 @@ void Group::show()
     for(int i=0;i<mSize;i++) mGroup[i]->show();
 }
 
-void Group::write(FILE* aFile)
+void Group::write()
 {
-    for(int i=0;i<mSize;i++) mGroup[i]->write(aFile);
+	 FILE* file = fopen ("myfile.bin" , "wb");
+	if(file==NULL){
+		cout<<"Error\n";
+		return;
+	}
+	fwrite(&mSize,sizeof(int),1,file);
+			for(int i=0;i<mSize;i++)
+				mGroup[i]->write(file);
+    
+	fclose(file);
 }
 
-bool Group::read(FILE* aFile)
+void Group::read()
 {
-    bool res = true;
-    for(int i=0;i<mSize;i++){
-        if (!mGroup[i]->read(aFile)){
-            res = false;
-        }
-    }
-    return res;
+	 FILE* file = fopen ("myfile.bin" , "rb");
+	if(file==NULL){
+		cout<<"Error\n";
+		return;
+	}
+	Group* fake_mass=new Group;
+//	mGroup=fake_mass;
+	for(int i=0;i<mSize;i++)
+				mGroup[i]->read(file);
+		
+			
+    
+	fclose(file);
+    
 }

@@ -281,7 +281,7 @@ void Student::show()
 	fwrite(&icq,sizeof(int),1,aFile);
 	
 }
-bool Student::read(FILE* aFile)
+void Student::read(FILE* aFile)
 {
 	unsigned int size_str = 0;
 	fread(&size_str,sizeof(int),1,aFile);
@@ -318,6 +318,4 @@ bool Student::read(FILE* aFile)
 
 	fread(&icq,sizeof(int),1,aFile);
 	
-
-	return true;
 }
